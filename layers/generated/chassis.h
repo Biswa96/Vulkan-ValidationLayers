@@ -3122,6 +3122,10 @@ typedef enum VkValidationFeatureEnable {
     VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION,
 } VkValidationFeatureEnable;
 
+typedef enum VkValidationFeatureDisable {
+    VK_VALIDATION_FEATURE_DISABLE_SHADER_VALIDATION_CACHING_EXT,
+} VkValidationFeatureDisable;
+
 // CHECK_DISABLED and CHECK_ENABLED vectors are containers for bools that can opt in or out of specific classes of validation
 // checks. Enum values can be specified via the vk_layer_settings.txt config file or at CreateInstance time via the
 // VK_EXT_validation_features extension that can selectively disable or enable checks.
@@ -3138,6 +3142,7 @@ typedef enum DisableFlags {
     stateless_checks,
     handle_wrapping,
     shader_validation,
+    shader_validation_caching,
     // Insert new disables above this line
     kMaxDisableFlags,
 } DisableFlags;

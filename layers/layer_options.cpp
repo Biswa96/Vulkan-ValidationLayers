@@ -123,6 +123,16 @@ void SetValidationFeatureEnable2(CHECK_ENABLED &enable_data, const VkValidationF
     }
 }
 
+void SetValidationFeatureDisable2(CHECK_DISABLED &disable_data, const VkValidationFeatureDisable feature_disable) {
+    switch (feature_disable) {
+    case VK_VALIDATION_FEATURE_DISABLE_SHADER_VALIDATION_CACHING_EXT:
+        disable_data[shader_validation_caching] = true;
+        break;
+    default:
+        break;
+    }
+}
+
 // Set the local disable flag for settings specified through the VK_EXT_validation_flags extension
 void SetValidationFlags(CHECK_DISABLED &disables, const VkValidationFlagsEXT *val_flags_struct) {
     for (uint32_t i = 0; i < val_flags_struct->disabledValidationCheckCount; ++i) {
@@ -207,6 +217,12 @@ void SetLocalDisableSetting(std::string list_of_disables, std::string delimiter,
             auto result = VkValFeatureDisableLookup.find(token);
             if (result != VkValFeatureDisableLookup.end()) {
                 SetValidationFeatureDisable(disables, result->second);
+            }
+            else {
+                auto result2 = VkValFeatureDisableLookup2.find(token);
+                if (result2 != VkValFeatureDisableLookup2.end()) {
+                    SetValidationFeatureDisable2(disables, result2->second);
+                }
             }
         } else if (token.find("VALIDATION_CHECK_DISABLE_") != std::string::npos) {
             auto result = ValidationDisableLookup.find(token);
